@@ -27,11 +27,3 @@ The repository features the following components:
 - Python 3.x
 - Standard Python libraries (`collections`, `pprint`)
 
-## Installation
-
-To install and run the solution, clone the repository to your local machine:
-
-```bash
-git clone https://github.com/yourusername/sequence-alignment-hmm.git
-cd sequence-alignment-hmm
-
