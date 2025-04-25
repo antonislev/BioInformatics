@@ -1,6 +1,6 @@
 import numpy as np
 
-# Ορισμός του datasetC
+# organic datasetC
 datasetC = [
     "GGTTAGAACGCATTAGGACTCAAATTTCAGTT",
     "CGCATTAGAACGCATTTAGGATACAAATTTCTGTTA",
@@ -23,6 +23,7 @@ datasetC = [
     "TATTAAACGCTTAGGAGTCACATTCATA",
     "TTATTAACGCATTTAGACTCAAATTCCAGAGC"
 ]
+# random dataset of the same alphabet
 datasetCA = [
     "AGCTGATCGAGGTCGATCGTAAAGCTGAGTTCG",
     "GCTAGCTAGGCTAGCAGTCCATGATAGCGTCTA",
