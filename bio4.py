@@ -2,6 +2,28 @@ import numpy as np
 
 # Ορισμός του datasetC
 datasetC = [
+    "GGTTAGAACGCATTAGGACTCAAATTTCAGTT",
+    "CGCATTAGAACGCATTTAGGATACAAATTTCTGTTA",
+    "TATTAGAACGCATTTAGGACTCAAATTTCAGTAT",
+    "TCTTAGGACGCATAAGGACTCAAATTTGAGTA",
+    "AGTAATAGAACGCATTTAGGACTCAAGTTTCATAC",
+    "TCCATTAGAACGCATTTAGGACTAAATTTCAGTC",
+    "CCATTAGAAGCATTTAGCCTCAAACTTCATA",
+    "CTATAGCACGCATTTAGGACTCGAATTTCAGTGT",
+    "GAGACTAGAACGCTCTAGGACTCAAATTCAGG",
+    "GAATAAGAACGCATTTTGGACTCAAATTTCAGT",
+    "CCTATTAGAACGAATTACGACTCAATCTCAGTT",
+    "TGATTAGAACGCATTTAGGACTCAAATTTCAGTT",
+    "AGATAGTACGCATTTAGGTCTGAAATTTCCGTG",
+    "ATCTTAGAACGCATTTAGGACTCAACTTTCAGTCT",
+    "CCATTAGAACGCATTTGGACGCAAATTTCAGTC",
+    "CTTAGAACGCATTTAGACTCAAATTTAGTGA",
+    "AGATAGAACGCATTTAGGACTCAATTCAGTA",
+    "GTACTTGAACGCATTTAGGACTCAATTCAGTAA",
+    "TATTAAACGCTTAGGAGTCACATTCATA",
+    "TTATTAACGCATTTAGACTCAAATTCCAGAGC"
+]
+datasetCA = [
     "AGCTGATCGAGGTCGATCGTAAAGCTGAGTTCG",
     "GCTAGCTAGGCTAGCAGTCCATGATAGCGTCTA",
     "ATCGTAGCGTACGGTACATGCTAGGTCGATACG",
@@ -24,25 +46,25 @@ datasetC = [
 ]
 
 
-# Σκορ ανομοιότητας και ομοιότητας
+# scores
 match_score = 1
 mismatch_score = -1
 gap_penalty = -2
 
-# Υπολογισμός του alignment για κάθε ζεύγος ακολουθιών
+# calc alignment for seq pair
 def calculate_alignment(seq1, seq2):
-    # Δημιουργία πίνακα DP
+    # DP
     len_seq1 = len(seq1)
     len_seq2 = len(seq2)
     dp = np.zeros((len_seq1 + 1, len_seq2 + 1))
 
-    # Εφαρμογή του αρχικού gap penalty
+    # gap penalty
     for i in range(1, len_seq1 + 1):
         dp[i][0] = dp[i-1][0] + gap_penalty
     for j in range(1, len_seq2 + 1):
         dp[0][j] = dp[0][j-1] + gap_penalty
 
-    # Υπολογισμός των scores DP
+    # scores DP
     for i in range(1, len_seq1 + 1):
         for j in range(1, len_seq2 + 1):
             match = dp[i-1][j-1] + (match_score if seq1[i-1] == seq2[j-1] else mismatch_score)
@@ -50,7 +72,7 @@ def calculate_alignment(seq1, seq2):
             insert = dp[i][j-1] + gap_penalty
             dp[i][j] = max(match, delete, insert)
 
-    # Ανακατασκευή του alignment path
+    # remake of alignment path
     alignment1 = []
     alignment2 = []
     i, j = len_seq1, len_seq2
@@ -70,15 +92,15 @@ def calculate_alignment(seq1, seq2):
             i -= 1
             j -= 1
 
-    # Αντιστροφή των αποτελεσμάτων για να είναι στη σωστή σειρά
+    # reverse results for correct order
     alignment1.reverse()
     alignment2.reverse()
 
     return ''.join(alignment1), ''.join(alignment2), dp[len_seq1][len_seq2]
 
-# Υπολογισμός του alignment για κάθε ζεύγος ακολουθιών
+# calc alignment 
 for i in range(len(datasetC)):
-    for j in range(i+1, len(datasetC)):  # Ελέγχουμε μόνο κάθε ζεύγος
+    for j in range(i+1, len(datasetC)):  # check for evry pair
         print(f"Aligning Sequence {i+1} and Sequence {j+1}:")
         aligned_seq1, aligned_seq2, score = calculate_alignment(datasetC[i], datasetC[j])
         print("Alignment Score:", score)
